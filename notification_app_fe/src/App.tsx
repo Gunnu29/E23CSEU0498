@@ -10,36 +10,41 @@ initLogger({ token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJNYXBDbGFpbXMiOnsiYX
 
 const theme = createTheme({
   palette: {
-    mode: 'dark',
+    mode: 'light',
     primary: {
-      main: '#90caf9',
+      main: '#111111',
     },
     secondary: {
-      main: '#f48fb1',
+      main: '#757575',
     },
     background: {
-      default: '#0a1929',
-      paper: '#001e3c',
+      default: '#f8f9fa',
+      paper: '#ffffff',
     },
+    divider: '#eaeaea',
   },
   typography: {
-    fontFamily: '"Fira Code", "Roboto Mono", "Menlo", monospace',
+    fontFamily: '"Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", Arial, sans-serif',
     h4: {
-      fontWeight: 600,
-      letterSpacing: '-0.05rem',
-      color: '#e3f2fd',
+      fontWeight: 700,
+      letterSpacing: '-0.03em',
+      color: '#111111',
     },
     body1: {
-      fontSize: '1rem',
+      fontSize: '0.95rem',
       lineHeight: 1.6,
+      color: '#333333',
     }
+  },
+  shape: {
+    borderRadius: 8,
   },
   components: {
     MuiCard: {
       styleOverrides: {
         root: {
-          borderRadius: 12,
-          border: '1px solid #1e4976',
+          border: '1px solid #eaeaea',
+          boxShadow: '0 1px 3px rgba(0,0,0,0.04)',
         }
       }
     },
@@ -47,8 +52,16 @@ const theme = createTheme({
       styleOverrides: {
         root: {
           textTransform: 'none',
-          borderRadius: 8,
           fontWeight: 600,
+          borderRadius: 6,
+        }
+      }
+    },
+    MuiChip: {
+      styleOverrides: {
+        root: {
+          fontWeight: 600,
+          borderRadius: 6,
         }
       }
     }

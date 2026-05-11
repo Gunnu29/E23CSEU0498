@@ -1,46 +1,48 @@
 import React from 'react';
 import { AppBar, Toolbar, Typography, Button, Box } from '@mui/material';
 import { Outlet, Link as RouterLink, useLocation } from 'react-router-dom';
-import TerminalIcon from '@mui/icons-material/Terminal';
+import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone';
 
 export const Layout: React.FC = () => {
   const location = useLocation();
 
   return (
-    <Box sx={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
-      <AppBar position="sticky" elevation={0} sx={{ backgroundColor: '#0a1929', borderBottom: '1px solid #1e4976' }}>
+    <Box sx={{ display: 'flex', flexDirection: 'column', minHeight: '100vh', backgroundColor: '#f8f9fa' }}>
+      <AppBar position="sticky" elevation={0} sx={{ backgroundColor: '#ffffff', borderBottom: '1px solid #eaeaea' }}>
         <Toolbar>
-          <TerminalIcon sx={{ mr: 2, color: '#90caf9' }} />
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1, fontWeight: 'bold', letterSpacing: '0.1rem' }}>
-            ~/campus-sys/notifications
+          <NotificationsNoneIcon sx={{ mr: 2, color: '#111111' }} />
+          <Typography variant="h6" component="div" sx={{ flexGrow: 1, fontWeight: 700, color: '#111111', letterSpacing: '-0.02em' }}>
+            Notifications
           </Typography>
           <Button 
             color="inherit" 
             component={RouterLink} 
             to="/"
             sx={{ 
-              color: location.pathname === '/' ? '#90caf9' : '#a0aec0',
-              borderBottom: location.pathname === '/' ? '2px solid #90caf9' : '2px solid transparent', 
+              color: location.pathname === '/' ? '#111111' : '#888888',
+              borderBottom: location.pathname === '/' ? '2px solid #111111' : '2px solid transparent', 
               borderRadius: 0, 
-              mx: 1,
-              '&:hover': { color: '#ffffff' }
+              mx: 2,
+              pb: 0.5,
+              '&:hover': { color: '#111111', backgroundColor: 'transparent' }
             }}
           >
-            ./all
+            All
           </Button>
           <Button 
             color="inherit" 
             component={RouterLink} 
             to="/priority"
             sx={{ 
-              color: location.pathname === '/priority' ? '#90caf9' : '#a0aec0',
-              borderBottom: location.pathname === '/priority' ? '2px solid #90caf9' : '2px solid transparent', 
+              color: location.pathname === '/priority' ? '#111111' : '#888888',
+              borderBottom: location.pathname === '/priority' ? '2px solid #111111' : '2px solid transparent', 
               borderRadius: 0, 
-              mx: 1,
-              '&:hover': { color: '#ffffff' }
+              mx: 2,
+              pb: 0.5,
+              '&:hover': { color: '#111111', backgroundColor: 'transparent' }
             }}
           >
-            ./priority
+            Priority
           </Button>
         </Toolbar>
       </AppBar>
