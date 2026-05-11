@@ -3,7 +3,7 @@ import { Card, CardContent, Typography, Box, Chip } from '@mui/material';
 import type { Notification } from '../api';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import EventOutlinedIcon from '@mui/icons-material/EventOutlined';
-import WorkOutlineIcon from '@mui/icons-material/WorkOutline';
+import WorkOutlineIcon from '@mui/icons-material/WorkOutlined';
 import TaskAltIcon from '@mui/icons-material/TaskAlt';
 
 interface Props {
