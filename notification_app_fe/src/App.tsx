@@ -1,51 +1,41 @@
-import { useState, useEffect } from 'react'
-import { Log, initLogger } from 'logger-middleware'
-import './App.css'
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { ThemeProvider, createTheme, CssBaseline } from '@mui/material';
+import { Layout } from './components/Layout';
+import { AllNotifications } from './pages/AllNotifications';
+import { PriorityNotifications } from './pages/PriorityNotifications';
+import { initLogger } from 'logger-middleware';
 
-initLogger({ token: 'frontend-token-456' });
+// Initialize the logger for frontend usage
+initLogger({ token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJNYXBDbGFpbXMiOnsiYXVkIjoiaHR0cDovLzIwLjI0NC41Ni4xNDQvZXZhbHVhdGlvbi1zZXJ2aWNlIiwiZW1haWwiOiJlMjNjc2V1MDQ5OEBiZW5uZXR0LmVkdS5pbiIsImV4cCI6MTc3ODQ4Nzk1MSwiaWF0IjoxNzc4NDg3MDUxLCJpc3MiOiJBZmZvcmQgTWVkaWNhbCBUZWNobm9sb2dpZXMgUHJpdmF0ZSBMaW1pdGVkIiwianRpIjoiYzZkMzQwOTMtNzVhNy00OTY5LWFjNzEtM2JmZTEyYmQwOTkxIiwibG9jYWxlIjoiZW4tSU4iLCJuYW1lIjoiZ2Fydml0YSBiYXRyYSIsInN1YiI6IjZjNDE1NDRhLWU3YjUtNDU0ZC05M2Y0LWRmYWQzOTI1NjA2YiJ9LCJlbWFpbCI6ImUyM2NzZXUwNDk4QGJlbm5ldHQuZWR1LmluIiwibmFtZSI6ImdhcnZpdGEgYmF0cmEiLCJyb2xsTm8iOiJlMjNjc2V1MDQ5OCIsImFjY2Vzc0NvZGUiOiJUZkR4Z3IiLCJjbGllbnRJRCI6IjZjNDE1NDRhLWU3YjUtNDU0ZC05M2Y0LWRmYWQzOTI1NjA2YiIsImNsaWVudFNlY3JldCI6IkhuZlBYeUpSckdadHdNV1QifQ.1jgV6LOqZL76K9WxwmDkwDbNlca5iAXGR64Msc7T33g' });
 
-/**
- * Serves as the primary visual interface for users to generate and monitor telemetry events.
- */
+const theme = createTheme({
+  palette: {
+    primary: {
+      main: '#1976d2',
+    },
+    background: {
+      default: '#f0f2f5',
+    },
+  },
+  typography: {
+    fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
+  },
+});
+
 function App() {
-  const [clickCounter, setClickCounter] = useState(0)
-
-  useEffect(() => {
-    Log('frontend', 'info', 'component', 'App component mounted');
-  }, []);
-
-  const handleCounterIncrement = () => {
-    const nextCounter = clickCounter + 1;
-    setClickCounter(nextCounter);
-    Log('frontend', 'debug', 'state', `Count updated to ${nextCounter}`);
-  };
-
-  const executeSimulatedNetworkRequest = async () => {
-    Log('frontend', 'info', 'api', 'Starting simulated API call');
-    try {
-      await new Promise(resolveTimer => setTimeout(resolveTimer, 500));
-      throw new Error("Simulated network failure");
-    } catch (networkException: any) {
-      Log('frontend', 'error', 'api', `API call failed: ${networkException.message}`);
-    }
-  };
-
   return (
-    <div className="App">
-      <h1>Logging Middleware Demo</h1>
-      <div className="card">
-        <button onClick={handleCounterIncrement}>
-          count is {clickCounter}
-        </button>
-        <button onClick={executeSimulatedNetworkRequest} style={{ marginLeft: '10px' }}>
-          Simulate API Error
-        </button>
-      </div>
-      <p className="read-the-docs">
-        Check the console and the backend test server for log events.
-      </p>
-    </div>
-  )
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <Router>
+        <Routes>
+          <Route path="/" element={<Layout />}>
+            <Route index element={<AllNotifications />} />
+            <Route path="priority" element={<PriorityNotifications />} />
+          </Route>
+        </Routes>
+      </Router>
+    </ThemeProvider>
+  );
 }
 
-export default App
+export default App;

@@ -1,32 +1,31 @@
-# Notification System Design
+# Stage 1
 
-## Stage 1
-### Priority Inbox Architecture
-To implement the Priority Inbox feature, we need a mechanism to rank incoming notifications effectively based on two primary dimensions:
-1. **Weight**: Categorical importance (`Placement` > `Result` > `Event`)
-2. **Recency**: The time the notification was generated (newest first).
+## Approach for Maintaining Priority Inbox Efficiently
 
-#### Priority Algorithm
-Each notification is mapped to an internal integer weight score:
-- **Placement**: `3`
-- **Result**: `2`
-- **Event**: `1`
+To maintain the top 'n' most important unread notifications dynamically as new notifications stream in, sorting the entire dataset repeatedly (O(N log N)) is inefficient. Instead, we can utilize a **Min-Heap (Priority Queue)** data structure.
 
-The sorting algorithm uses a two-level comparator:
-1. First, compare the integer weight score of `Notification A` and `Notification B`. If they differ, the one with the higher weight is sorted first.
-2. If the weight scores are identical, parse the `Timestamp` field into an epoch integer, and sort descending (most recent first).
+### Algorithm
+1. **Priority Score Calculation:** Each notification is assigned a priority score based on:
+   - **Type Weight:** Placement (3) > Result (2) > Event (1).
+   - **Recency:** Represented by the Unix timestamp of the notification.
+2. **Min-Heap Initialization:** We initialize a Min-Heap of size `n` (e.g., 10). The heap orders elements such that the notification with the *lowest* priority score among the top `n` is always at the root.
+3. **Processing the Initial Stream:** 
+   - Insert the first `n` notifications into the heap.
+   - For every subsequent notification, compare its priority score with the root of the heap.
+   - If the new notification's score is higher than the root, we pop the root and insert the new notification. This takes O(log n) time.
+4. **Handling Continuous Updates:** As new notifications arrive via WebSocket or polling, the same O(log n) comparison and insertion logic applies.
+5. **Final Output:** The heap contains the top `n` notifications. We can pop them out and reverse them to get the sorted order (highest priority first).
 
-#### Data Structure & Maintenance
-Currently, the system executes an in-memory sort of the fetched notifications. 
-For production, efficiently maintaining the top 10 notifications as new data flows in continuously requires an optimal data structure:
-- **Max-Heap (Priority Queue)**: Inserting a new notification into a Max-Heap is `O(log N)`. Retrieving the top 10 elements involves popping the head of the heap 10 times, taking `O(K log N)` where `K=10`. This avoids sorting the entire notification array (`O(N log N)`) every time a single new event arrives.
-- **Caching**: The current Top N can be cached in a Redis Sorted Set (ZSET) allowing instantaneous fetching of priority notifications without hitting the primary database.
+### Time Complexity
+- **Insertion/Update:** O(log n) per new notification.
+- **Fetching Top n:** O(n log n) to extract and sort the final heap, but since `n` is very small (e.g., 10 or 20), this is effectively O(1).
+- **Overall Time Complexity for N items:** O(N log n), which is significantly faster than O(N log N) when N is very large and n is small.
 
-## System Architecture
-*(To be expanded in later stages)*
+### Space Complexity
+- **Storage:** O(n) to store the heap, which is highly memory-efficient.
 
-## Components
-*(To be expanded in later stages)*
+---
 
-## Data Flow
-*(To be expanded in later stages)*
+# Stage 2
+
+The Stage 2 frontend implementation is placed in the `notification_app_fe` directory, utilizing React with Material UI as requested.
