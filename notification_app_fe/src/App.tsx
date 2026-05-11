@@ -10,16 +10,49 @@ initLogger({ token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJNYXBDbGFpbXMiOnsiYX
 
 const theme = createTheme({
   palette: {
+    mode: 'dark',
     primary: {
-      main: '#1976d2',
+      main: '#90caf9',
+    },
+    secondary: {
+      main: '#f48fb1',
     },
     background: {
-      default: '#f0f2f5',
+      default: '#0a1929',
+      paper: '#001e3c',
     },
   },
   typography: {
-    fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
+    fontFamily: '"Fira Code", "Roboto Mono", "Menlo", monospace',
+    h4: {
+      fontWeight: 600,
+      letterSpacing: '-0.05rem',
+      color: '#e3f2fd',
+    },
+    body1: {
+      fontSize: '1rem',
+      lineHeight: 1.6,
+    }
   },
+  components: {
+    MuiCard: {
+      styleOverrides: {
+        root: {
+          borderRadius: 12,
+          border: '1px solid #1e4976',
+        }
+      }
+    },
+    MuiButton: {
+      styleOverrides: {
+        root: {
+          textTransform: 'none',
+          borderRadius: 8,
+          fontWeight: 600,
+        }
+      }
+    }
+  }
 });
 
 function App() {

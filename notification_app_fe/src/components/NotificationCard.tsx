@@ -35,35 +35,38 @@ export const NotificationCard: React.FC<Props> = ({ notification, isViewed, onVi
     <Card 
       sx={{ 
         mb: 2, 
-        borderLeft: isViewed ? '4px solid transparent' : '4px solid #1976d2',
-        backgroundColor: isViewed ? '#f9f9f9' : '#ffffff',
+        borderLeft: isViewed ? '4px solid transparent' : '4px solid #90caf9',
+        backgroundColor: isViewed ? 'rgba(0, 30, 60, 0.5)' : '#001e3c',
         cursor: 'pointer',
-        transition: '0.2s',
+        transition: 'all 0.2s ease-in-out',
         '&:hover': {
-          boxShadow: 3
+          transform: 'translateY(-2px)',
+          boxShadow: '0 8px 24px rgba(0,0,0,0.4)',
+          borderColor: '#90caf9'
         }
       }}
       onMouseEnter={() => onView(notification.ID)}
       onClick={() => onView(notification.ID)}
     >
       <CardContent>
-        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 1 }}>
-          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', mb: 1.5 }}>
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, flexWrap: 'wrap' }}>
             <Chip 
               icon={getIconForType(notification.Type)} 
               label={notification.Type} 
               color={getColorForType(notification.Type)} 
               size="small" 
+              sx={{ fontWeight: 'bold' }}
             />
             {!isViewed && (
-              <Chip label="New" color="primary" size="small" variant="outlined" sx={{ height: '20px', fontSize: '0.7rem' }} />
+              <Chip label="UNREAD" color="primary" size="small" variant="filled" sx={{ height: '20px', fontSize: '0.65rem', fontWeight: 800, backgroundColor: '#1976d2' }} />
             )}
           </Box>
-          <Typography variant="caption" color="textSecondary">
-            {new Date(notification.Timestamp).toLocaleString()}
+          <Typography variant="caption" sx={{ color: '#7ea6ce', fontFamily: 'monospace' }}>
+            [{new Date(notification.Timestamp).toLocaleString()}]
           </Typography>
         </Box>
-        <Typography variant="body1" sx={{ fontWeight: isViewed ? 'normal' : 'bold' }}>
+        <Typography variant="body1" sx={{ fontWeight: isViewed ? 400 : 700, color: isViewed ? '#b2bac2' : '#ffffff' }}>
           {notification.Message}
         </Typography>
       </CardContent>
